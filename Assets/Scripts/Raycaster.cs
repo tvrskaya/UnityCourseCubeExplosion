@@ -1,8 +1,11 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class Raycaster : MonoBehaviour
 {
+    public event Action<Cube> CubeTouched;
+
     [SerializeField] private int _maxRayDistance = 100;
 
     private void Update()
@@ -14,9 +17,9 @@ public class Raycaster : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit, _maxRayDistance))
             {
-                if (hit.collider.TryGetComponent<Explosioner>(out var explosioner))
+                if (hit.collider.TryGetComponent<Cube>(out var cube))
                 {
-                    explosioner.Explode();
+                    CubeTouched?.Invoke(cube);
                 }
             }
         }
