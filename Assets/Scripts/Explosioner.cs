@@ -15,4 +15,17 @@ public class Explosioner
             cube.GetComponent<Rigidbody>().AddForce(explosionForce, ForceMode.Impulse);
         }
     }
+
+    public void MakeExplosion(Vector3 explosionPoint, float explosionRadius, float explosionForceScale)
+    {
+        Collider[] hits = Physics.OverlapSphere(explosionPoint, explosionRadius);
+        
+        foreach (Collider hit in hits)
+        {
+            if (hit.attachedRigidbody != null)
+            {
+                hit.attachedRigidbody.AddExplosionForce(_explosionForce * explosionForceScale, explosionPoint, explosionRadius);
+            }
+        }
+    }
 }
